@@ -1,0 +1,1124 @@
+ <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - 任佳佳</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'WenQuanYi';
+            src: url('WenQuanYi Bitmap Song 12px.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        #page3 {
+            background-color: #fce4ec;
+            background-image: url('页面一背景图2.jpg');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 50px 0 100px;
+        }
+
+        .page3-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
+
+        .section-wrapper {
+            margin-bottom: 70px;
+        }
+
+        .section-title {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #FF99CC;
+            margin-bottom: 30px;
+            padding-left: 20px;
+            border-left: 4px solid #99E6FF;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 2px;
+        }
+
+        .title-cursor {
+            display: inline-block;
+            width: 12px;
+            height: 16px;
+            background: #B8E6B8;
+            animation: titleBlink 0.8s infinite;
+        }
+
+        @keyframes titleBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #EEEEEE, transparent);
+            margin: 60px 0;
+            position: relative;
+        }
+
+        .section-divider .divider-stars {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 2;
+        }
+
+        .section-divider .divider-stars img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+        }
+
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: zoom-out;
+        }
+
+        .lightbox-overlay.show {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 1.275rem;
+            color: #fff;
+            cursor: pointer;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+        }
+
+        .resume-section {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .info-box {
+            background: url('个人信息背景图1.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-box.info-box-with-photo {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .info-box-photo {
+            width: 180px;
+            height: 240px;
+            border-radius: 8px;
+            object-fit: cover;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            flex-shrink: 0;
+        }
+
+        .info-box-title {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #FF99CC;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #99E6FF;
+        }
+
+        .info-box-content {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .info-box-content p {
+            margin-bottom: 6px;
+        }
+
+        .info-box-content strong {
+            color: #2D5A27;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .portfolio-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .portfolio-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #FF99CC;
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+            background: #F9F9F9;
+        }
+
+        .portfolio-card:hover .portfolio-img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-card .card-label {
+            text-align: center;
+            padding: 12px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #555;
+            border-top: 1px solid #F0F0F0;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .video-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #EEEEEE;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .video-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #B8E6B8;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+            background: #F9F9F9;
+        }
+
+        .video-wrapper video,
+        .video-wrapper .video-poster {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-wrapper video {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            background-color: #000;
+        }
+
+        .video-label {
+            padding: 14px;
+            text-align: center;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #555;
+            border-top: 1px solid #F0F0F0;
+        }
+
+        .contact-section {
+            margin-top: 80px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #EEEEEE;
+        }
+
+        .contact-title {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #FF99CC;
+            margin-bottom: 35px;
+            letter-spacing: 3px;
+        }
+
+        .contact-items {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 50px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.275rem;
+            color: #333;
+        }
+
+        .contact-icon {
+            font-size: 1.275rem;
+        }
+
+        .visitor-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #fff;
+            border: 2px solid #99E6FF;
+            padding: 12px 20px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .visitor-counter span {
+            color: #FF99CC;
+        }
+
+
+
+        .guestbook-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: #fff;
+            border: 3px solid #B8E6B8;
+            padding: 15px 25px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            cursor: pointer;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .guestbook-btn:hover {
+            background: #B8E6B8;
+            color: #fff;
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .guestbook-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .guestbook-overlay.show {
+            display: flex;
+        }
+
+        .guestbook-popup {
+            background: #fff;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .guestbook-header {
+            padding: 20px;
+            border-bottom: 2px solid #FF99CC;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .guestbook-header h3 {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #FF99CC;
+            margin: 0;
+        }
+
+        .guestbook-close {
+            font-size: 1.275rem;
+            color: #333;
+            cursor: pointer;
+            font-family: sans-serif;
+        }
+
+        .guestbook-input-area {
+            padding: 20px;
+            border-bottom: 2px solid #EEEEEE;
+        }
+
+        .guestbook-input {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 2px solid #EEEEEE;
+            border-radius: 8px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #FF99CC;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        .guestbook-input:focus {
+            outline: none;
+            border-color: #99E6FF;
+        }
+
+        .guestbook-submit-btn {
+            padding: 10px 25px;
+            background: #FF99CC;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .guestbook-submit-btn:hover {
+            background: #FF80AA;
+            transform: translateY(-2px);
+        }
+
+        .guestbook-messages {
+            padding: 20px;
+        }
+
+        .guestbook-message {
+            padding: 15px;
+            background: #F9F9F9;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 3px solid #99E6FF;
+        }
+
+        .guestbook-message-time {
+            font-family: 'Courier New', monospace;
+            font-size: 1.275rem;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .guestbook-message-text {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            line-height: 1.8;
+        }
+
+        .guestbook-empty {
+            text-align: center;
+            padding: 30px;
+            color: #999;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+        }
+
+        .placeholder-card {
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border: 2px dashed #DDD;
+            border-radius: 12px;
+        }
+
+        .placeholder-card .placeholder-icon {
+            font-size: 1.275rem;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+
+        .placeholder-card .placeholder-text {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #999;
+            text-align: center;
+        }
+
+        .page-nav-buttons {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #fff;
+            border: 3px solid #B8E6B8;
+            border-radius: 8px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: #B8E6B8;
+            color: #333;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 1024px) {
+            .portfolio-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .info-box.info-box-with-photo {
+                flex-direction: column;
+                align-items: center;
+            }
+            .info-box-photo {
+                width: 150px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #page3 {
+                padding: 30px 0 80px;
+            }
+            .page3-content {
+                padding: 0 15px;
+            }
+            .resume-section {
+                flex-direction: column;
+                text-align: center;
+            }
+            .section-title {
+                font-size: 1.1rem;
+            }
+            .info-box {
+                padding: 20px;
+            }
+            .info-box-title {
+                font-size: 1.1rem;
+            }
+            .info-box-content {
+                font-size: 1rem;
+            }
+            .portfolio-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .portfolio-img {
+                height: 130px;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .contact-items {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .contact-item {
+                font-size: 1rem;
+            }
+            .guestbook-btn {
+                position: static;
+                display: inline-block;
+                margin: 10px;
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            .page-nav-buttons {
+                position: static;
+                display: flex;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                font-size: 1rem;
+                padding: 8px 12px;
+            }
+            .guestbook-popup {
+                width: 95%;
+                max-width: 400px;
+            }
+            .guestbook-input {
+                font-size: 1rem;
+                min-height: 60px;
+            }
+            .guestbook-submit-btn {
+                font-size: 1rem;
+                padding: 8px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+            .portfolio-img {
+                height: 180px;
+            }
+            .section-divider {
+                margin: 40px 0;
+            }
+            .section-wrapper {
+                margin-bottom: 50px;
+            }
+            .contact-section {
+                padding: 30px 20px;
+            }
+            .contact-title {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="page3" class="page">
+        <div class="page-nav-buttons">
+            <button class="nav-btn back-home" onclick="window.location.href='index.html'">返回首页</button>
+            <button class="nav-btn back-prev" onclick="window.location.href='apple-tree.html'">be friend</button>
+        </div>
+        
+        <div class="page3-content">
+            <div class="section-wrapper">
+                <h1 class="section-title">
+                    <span class="title-cursor"></span>
+                    个人简历
+                </h1>
+                <div class="resume-section">
+                    <div class="info-box info-box-with-photo">
+                        <img class="info-box-photo" src="个人简历照片1.jpg" alt="个人照片">
+                        <div>
+                            <div class="info-box-title">基本信息</div>
+                            <div class="info-box-content">
+                                <p><strong>姓名：</strong>任晨佳</p>
+                                <p><strong>求职意向：</strong>新媒体运营</p>
+                                <p><strong>出生年月：</strong>2006年4月</p>
+                                <p><strong>住址：</strong>广东深圳</p>
+                                <p><strong>邮箱：</strong>r3127511240@163.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">教育背景</div>
+                        <div class="info-box-content">
+                            <p><strong>2024.9~至今</strong> 深圳大学 新闻传播专业 入党积极分子</p>
+                            <p><strong>学习课程：</strong></p>
+                            <p>媒体与社会、传播学理论、动态设计、纪录片创作、网络视听媒体文化、摄影艺术、新媒体概论</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">校园经历</div>
+                        <div class="info-box-content">
+                            <p><strong>2024.9~2025.9</strong> 深圳大学教育学部团委学生会外联部干事</p>
+                            <p>完成本部门的日常工作，做好通知协助统筹工作，负责对外沟通合作，共主导8家商家合作谈判，累计拉新赞助3.2万元，最高单笔8000元，策划并执行线下活动3场，触达学生群体2000+。</p>
+                            <p><strong>2024.9~至今</strong></p>
+                            <p>1. 独立负责深圳大学寒招活动队伍的宣发，制作推文</p>
+                            <p>2. 作为十五运会和残特奥会赛会闭幕式志愿者，积极负责完成志愿活动</p>
+                            <p>3. 担任过两次大型校级活动主持人，有丰富的舞台经验，控场能力强，善于解决突发情况</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">校外经历</div>
+                        <div class="info-box-content">
+                            <p><strong>2024.6~至今</strong> 自媒体运营 | 小红书博主</p>
+                            <p>1. 独立运营小红书账号“乘加加乘乘加”半年，作品浏览量总计30万，点赞量1.3万，粉丝量800+，擅长校园生活垂类内容。</p>
+                            <p>2. 曾在小红书发布过爆款作品，单篇笔记浏览量12万，并获点赞4千。</p>
+                            <p><strong>2024.7~至今</strong> 独立摄影师</p>
+                            <p>完成了20单以上的约拍工作，并且和一位客户建立了持久的合作关系，拥有出色的沟通能力。</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">项目经历</div>
+                        <div class="info-box-content">
+                            <p><strong>2024.8</strong> 倍思x深大校园倍小狮X计划</p>
+                            <p>参与倍思品牌校园推广计划，精准提炼产品卖点，创作小红书爆款笔记，运用新媒体工具实时监测多平台数据，基于分析反馈动态调整策略，持续提升内容效能。</p>
+                            <p><strong>2025.6~至今</strong> 夸克产品生态部 | 夸克校园大使</p>
+                            <p>策划并主导执行校园创意推广活动，独立组织夸克开学季活动在校园线下落地，提升用户数量。撰写活动宣传长图文。深度洞察学生群体需求痛点，结合夸克功能特性，创作针对性文案，发布于社群及校园渠道。</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">实习经历</div>
+                        <div class="info-box-content">
+                            <p><strong>2025.07 - 2025.08</strong> 新媒体运营实习生 | 深圳市思珂特教育科技有限公司</p>
+                            <p>参与运营公司微信公众号、等平台，负责内容策划、文案撰写与推送。跟进“CNAD CNAP 2025全球战”项目，协助执行活动并收集用户反馈进行效果评估。锻炼了出色的团队协作能力、内容策划能力、用户需求洞察力及实时热点的敏感度。</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">技能证书</div>
+                        <div class="info-box-content">
+                            <p>• 大学英语四级证书</p>
+                            <p>• 熟练掌握photoshop、premiere pro、adobe illustrator、Indesign、procreate等软件操作</p>
+                            <p>• 熟练掌握microsoft office办公软件</p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <div class="info-box-title">自我评价</div>
+                        <div class="info-box-content">
+                            <p>本人乐观开朗、热心真诚、主动性强。做事认真负责，有较强的自驱力、学习能力和计划协调能力。具备出色的内容创作、数据分析与用户洞察力，能精准把握新媒体运营核心要点。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <div class="divider-stars">
+                    <img src="星星.PNG" alt="星星1">
+                    <img src="星星2.PNG" alt="星星2">
+                    <img src="星星3.PNG" alt="星星3">
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title">
+                    <span class="title-cursor"></span>
+                    运营作品
+                </h2>
+                <div class="portfolio-grid" id="operationGrid">
+                    <div class="portfolio-card" style="cursor: pointer;" onclick="window.open('https://xhslink.com/m/10Lf9VF08mZ', '_blank')">
+                        <img class="portfolio-img" src="小红书封面.jpg" alt="小红书主页" onerror="this.src='https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400&h=300&fit=crop'">
+                        <div class="card-label">小红书主页 · 1.8万赞藏</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <div class="divider-stars">
+                    <img src="星星.PNG" alt="星星1">
+                    <img src="星星2.PNG" alt="星星2">
+                    <img src="星星3.PNG" alt="星星3">
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title">
+                    <span class="title-cursor"></span>
+                    推文作品
+                </h2>
+                <div class="portfolio-grid" id="writingGrid">
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="寒招推文1.png" alt="寒招推文1" onerror="this.style.background='#f0f0f0'">
+                        <div class="card-label">寒招推文 1</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="寒招推文2.png" alt="寒招推文2">
+                        <div class="card-label">寒招推文 2</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="寒招3.png" alt="寒招推文3">
+                        <div class="card-label">寒招推文 3</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="推文作品1.png" alt="活动推文1">
+                        <div class="card-label">活动推文 1</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="推文作品2.png" alt="活动推文2">
+                        <div class="card-label">活动推文 2</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="推文作品3.png" alt="活动推文3">
+                        <div class="card-label">活动推文 3</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="推文作品4.png" alt="活动推文4">
+                        <div class="card-label">活动推文 4</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <div class="divider-stars">
+                    <img src="星星.PNG" alt="星星1">
+                    <img src="星星2.PNG" alt="星星2">
+                    <img src="星星3.PNG" alt="星星3">
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title">
+                    <span class="title-cursor"></span>
+                    海报作品
+                </h2>
+                <div class="portfolio-grid" id="designGrid">
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="海报1.png" alt="圣诞节海报">
+                        <div class="card-label">圣诞节海报</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="海报2.png" alt="饮品海报">
+                        <div class="card-label">饮品海报</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="海报3.png" alt="音乐节海报">
+                        <div class="card-label">音乐节海报</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="海报4.png" alt="公益活动海报">
+                        <div class="card-label">公益活动海报</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title" style="font-size: 1.275rem;">
+                    <span class="title-cursor" style="width:10px;height:14px;"></span>
+                    活动物料
+                </h2>
+                <div class="portfolio-grid" id="materialGrid">
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="物料1.png" alt="活动物料1">
+                        <div class="card-label">活动物料 1</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="物料2.png" alt="活动物料2">
+                        <div class="card-label">活动物料 2</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="物料3.png" alt="活动物料3">
+                        <div class="card-label">活动物料 3</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="物料4.png" alt="活动物料4">
+                        <div class="card-label">活动物料 4</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <div class="divider-stars">
+                    <img src="星星.PNG" alt="星星1">
+                    <img src="星星2.PNG" alt="星星2">
+                    <img src="星星3.PNG" alt="星星3">
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title">
+                    <span class="title-cursor"></span>
+                    人像摄影
+                </h2>
+                <div class="portfolio-grid" id="photoGrid">
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影1.png" alt="人像1">
+                        <div class="card-label">人像摄影 1</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影2.png" alt="人像2">
+                        <div class="card-label">人像摄影 2</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影3.png" alt="人像3">
+                        <div class="card-label">人像摄影 3</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影4.png" alt="人像4">
+                        <div class="card-label">人像摄影 4</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影5.png" alt="人像5">
+                        <div class="card-label">人像摄影 5</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影6.png" alt="人像6">
+                        <div class="card-label">人像摄影 6</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影7.png" alt="人像7">
+                        <div class="card-label">人像摄影 7</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="人像摄影8.png" alt="人像8">
+                        <div class="card-label">人像摄影 8</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title" style="font-size: 1.275rem;">
+                    <span class="title-cursor" style="width:10px;height:14px;"></span>
+                    自然风光
+                </h2>
+                <div class="portfolio-grid" id="natureGrid">
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="摄影1.png" alt="风光1">
+                        <div class="card-label">自然风光 1</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="摄影2.png" alt="风光2">
+                        <div class="card-label">自然风光 2</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="摄影3.png" alt="风光3">
+                        <div class="card-label">自然风光 3</div>
+                    </div>
+                    <div class="portfolio-card">
+                        <img class="portfolio-img" src="摄影4.png" alt="风光4">
+                        <div class="card-label">自然风光 4</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-divider">
+                <div class="divider-stars">
+                    <img src="星星.PNG" alt="星星1">
+                    <img src="星星2.PNG" alt="星星2">
+                    <img src="星星3.PNG" alt="星星3">
+                </div>
+            </div>
+
+            <div class="section-wrapper">
+                <h2 class="section-title">
+                    <span class="title-cursor"></span>
+                    视频作品
+                </h2>
+                <div class="video-grid" id="videoGrid">
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <video controls preload="metadata" playsinline webkit-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="true">
+                                <source src="《ditto》翻拍.mp4" type="video/mp4">
+                                您的浏览器不支持视频播放，请升级浏览器或使用其他设备访问。
+                            </video>
+                        </div>
+                        <div class="video-label">《ditto》mv</div>
+                    </div>
+                    <div class="video-card">
+                        <div class="video-wrapper">
+                            <video controls preload="metadata" playsinline webkit-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="true">
+                                <source src="4月3日 (2).mp4" type="video/mp4">
+                                您的浏览器不支持视频播放，请升级浏览器或使用其他设备访问。
+                            </video>
+                        </div>
+                        <div class="video-label">探秘深大“小牛三合一”夜宵摊老板转型之路-采访</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-section">
+                <div class="contact-title">📬 联系方式</div>
+                <div class="contact-items">
+                    <div class="contact-item">
+                        <span class="contact-icon"></span>
+                        <a href="mailto:r3127511240@163.com" style="color: inherit; text-decoration: none;">邮箱：r3127511240@163.com</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="guestbook-btn" onclick="openGuestbook()">📝 留言板</button>
+
+
+
+        <div class="guestbook-overlay" id="guestbookOverlay">
+            <div class="guestbook-popup" onclick="event.stopPropagation()">
+                <div class="guestbook-header">
+                    <h3>匿名留言板</h3>
+                    <span class="guestbook-close" onclick="closeGuestbook()">×</span>
+                </div>
+                <div class="guestbook-input-area">
+                    <textarea class="guestbook-input" id="guestbookInput" placeholder="写下你的留言..."></textarea>
+                    <button class="guestbook-submit-btn" onclick="submitMessage()">发送留言</button>
+                </div>
+                <div class="guestbook-messages" id="guestbookMessages">
+                    <div class="guestbook-empty">还没有人留言，快来成为第一个吧！</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightbox()">
+        <span class="lightbox-close">×</span>
+        <img class="lightbox-content" id="lightboxImage" src="" alt="">
+    </div>
+
+    <script>
+        function goToPage(page) {
+            window.location.href = page;
+        }
+
+        function openLightbox(src) {
+            const overlay = document.getElementById('lightboxOverlay');
+            const img = document.getElementById('lightboxImage');
+            img.src = src;
+            overlay.classList.add('show');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxOverlay').classList.remove('show');
+        }
+
+        function loadMessages() {
+            try {
+                const saved = localStorage.getItem('guestbookMessages');
+                if (!saved) return [];
+                const parsed = JSON.parse(saved);
+                // 限制最大留言数量，防止内存溢出
+                return Array.isArray(parsed) ? parsed.slice(0, 100) : [];
+            } catch (e) {
+                console.warn('加载留言失败', e);
+                return [];
+            }
+        }
+
+        function saveMessages(messages) {
+            try {
+                // 限制最大留言数量，防止内存溢出
+                const limited = messages.slice(0, 100);
+                localStorage.setItem('guestbookMessages', JSON.stringify(limited));
+            } catch (e) {
+                console.warn('保存留言失败', e);
+            }
+        }
+
+        let messages = loadMessages();
+
+        function openGuestbook() {
+            document.getElementById('guestbookOverlay').classList.add('show');
+            renderMessages();
+        }
+
+        function closeGuestbook() {
+            document.getElementById('guestbookOverlay').classList.remove('show');
+        }
+
+        function submitMessage() {
+            const input = document.getElementById('guestbookInput');
+            const text = input.value.trim();
+            
+            if (text) {
+                const now = new Date();
+                const time = now.toLocaleString('zh-CN');
+                messages.unshift({
+                    text: text,
+                    time: time
+                });
+                saveMessages(messages);
+                
+                input.value = '';
+                renderMessages();
+            }
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('guestbookMessages');
+            
+            if (messages.length === 0) {
+                container.innerHTML = '<div class="guestbook-empty">还没有人留言，快来成为第一个吧！</div>';
+            } else {
+                container.innerHTML = messages.map(msg => `
+                    <div class="guestbook-message">
+                        <div class="guestbook-message-time">${msg.time}</div>
+                        <div class="guestbook-message-text">${msg.text}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // 图片错误处理
+        function handleImageError(img) {
+            img.style.background = '#f5f5f5';
+            img.style.objectFit = 'contain';
+            console.warn('图片加载失败:', img.src);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            // 添加图片错误处理
+            const images = document.querySelectorAll('.portfolio-img, .info-box-photo');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    handleImageError(this);
+                });
+                img.addEventListener('dblclick', function() {
+                    openLightbox(this.src);
+                });
+            });
+
+            const guestbookOverlay = document.getElementById('guestbookOverlay');
+            if (guestbookOverlay) {
+                guestbookOverlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeGuestbook();
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

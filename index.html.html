@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome - My Channel</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'WenQuanYi';
+            src: url('WenQuanYi Bitmap Song 12px.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        #page1 {
+            background: url('页面一背景图.jpg') no-repeat center center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding-top: 20px;
+            position: relative;
+        }
+
+        .page1-content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .main-photo {
+            width: 375px;
+            height: 500px;
+            overflow: hidden;
+            background: transparent;
+            margin-bottom: -60px;
+        }
+
+        .main-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .welcome-text {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #000;
+            margin-top: -40px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            line-height: 1.8;
+        }
+
+        .welcome-text.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .welcome-english {
+            font-size: 1.9125rem;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 30px;
+            margin-top: -10px;
+            opacity: 0;
+            transform: translateY(30px) scale(0.85);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .buttons-container.show {
+            opacity: 1;
+            transform: translateY(0) scale(0.85);
+        }
+
+        .btn-friend, .btn-work {
+            font-size: 1.6rem !important;
+        }
+
+        .btn-friend {
+            background: #fff;
+            border-color: #B8E6B8;
+            border-width: 3px;
+            color: #333;
+            text-shadow: none;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-friend:hover {
+            background: #B8E6B8;
+            color: #333;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-work {
+            background: #fff;
+            border-color: #B8E6B8;
+            border-width: 3px;
+            color: #333;
+            text-shadow: none;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-work:hover {
+            background: #B8E6B8;
+            color: #333;
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 1024px) {
+            .main-photo {
+                width: 320px;
+                height: 427px;
+            }
+            .welcome-english {
+                font-size: 1.7rem;
+            }
+            .btn-friend, .btn-work {
+                font-size: 1.4rem !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #page1 {
+                padding-top: 40px;
+            }
+            .main-photo {
+                width: 240px;
+                height: 320px;
+                margin-bottom: -40px;
+            }
+            .welcome-text {
+                font-size: 1.1rem;
+                padding: 0 20px;
+                margin-top: -30px;
+            }
+            .welcome-english {
+                font-size: 1.5rem;
+            }
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+                margin-top: 0;
+            }
+            .btn-friend, .btn-work {
+                font-size: 1.2rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #page1 {
+                padding-top: 30px;
+            }
+            .main-photo {
+                width: 200px;
+                height: 267px;
+                margin-bottom: -30px;
+            }
+            .welcome-text {
+                font-size: 1rem;
+                margin-top: -20px;
+            }
+            .welcome-english {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="page1" class="page">
+        <div class="stars-container" id="starsContainer"></div>
+        
+        <div class="page1-content">
+            <div class="main-photo">
+                <img src="第一页ccd.PNG" alt="我的照片" onerror="this.style.background='#f5f5f5'">
+            </div>
+            
+            <div class="welcome-text" id="welcomeText">
+                <span class="welcome-english">Welcome to my<br>channel! (o^^o)</span>
+            </div>
+            
+            <div class="buttons-container" id="buttonsContainer">
+                <a href="apple-tree.html" class="btn btn-friend">Friend!</a>
+                <a href="portfolio.html" class="btn btn-work">Workhorse!</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 60;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                const type = Math.floor(Math.random() * 3) + 1;
+                star.className = 'star type' + type;
+                
+                const size = 15 + Math.random() * 25;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 6;
+                const duration = 4 + Math.random() * 5;
+                
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = left + '%';
+                star.style.top = (-20 - Math.random() * 15) + 'vh';
+                star.style.animationDelay = delay + 's';
+                star.style.animationDuration = duration + 's';
+                
+                container.appendChild(star);
+            }
+        }
+
+        function initPage() {
+            createStars();
+            
+            setTimeout(() => {
+                document.getElementById('welcomeText').classList.add('show');
+            }, 500);
+            
+            setTimeout(() => {
+                document.getElementById('buttonsContainer').classList.add('show');
+            }, 1500);
+        }
+
+        window.addEventListener('load', initPage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Tree - 佳佳的秘密基地</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'WenQuanYi';
+            src: url('WenQuanYi Bitmap Song 12px.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        #page2 {
+            background: url('背景图.PNG') no-repeat center center;
+            background-size: cover;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .scene-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100vh;
+            position: relative;
+        }
+
+        .page-nav-buttons {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #fff;
+            border: 3px solid #B8E6B8;
+            border-radius: 8px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: #B8E6B8;
+            color: #333;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-hint-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.2);
+            background: url('页面二弹窗提示.jpg') no-repeat center center;
+            background-size: cover;
+            padding: 40px 60px;
+            border-radius: 8px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            z-index: 999;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-hint-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        .nav-hint-box.hide {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.5);
+            pointer-events: none;
+        }
+
+        .sun {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            width: 120px;
+            height: 120px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 10;
+        }
+
+        .sun:hover {
+            transform: scale(1.1);
+        }
+
+        .sun img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .cloud {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 5;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .cloud:hover {
+            transform: scale(1.1) translateY(-5px);
+        }
+
+        .cloud img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transform: scale(1.15);
+        }
+
+        .cloud-1 {
+            top: 60px;
+            left: 40px;
+            width: 225px;
+            height: 120px;
+            animation-delay: 0s;
+        }
+
+        .cloud-2 {
+            top: 100px;
+            left: 200px;
+            width: 180px;
+            height: 97px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-8px) translateX(5px); }
+            50% { transform: translateY(-5px) translateX(10px); }
+            75% { transform: translateY(-10px) translateX(5px); }
+        }
+
+        .apple-tree {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%) scale(1.25);
+            z-index: 3;
+            width: 400px;
+            height: 500px;
+        }
+
+        .apple-tree img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tree-apple {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tree-apple:hover {
+            transform: scale(1.2);
+        }
+
+        .tree-apple img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .tree-apple:nth-child(2) { top: 190px; left: 90px; }
+        .tree-apple:nth-child(3) { top: 70px; left: 210px; }
+        .tree-apple:nth-child(4) { top: 100px; left: 70px; }
+        .tree-apple:nth-child(5) { top: 170px; left: 240px; }
+
+        .tree-apple.special {
+            display: none;
+        }
+
+        @keyframes applePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+
+        .tree-apple.special.show {
+            display: block;
+            top: 100px;
+            left: 280px;
+            animation: applePulse 1.2s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        .tree-apple.special.hidden {
+            display: none;
+        }
+
+        .little-girl {
+            position: absolute;
+            bottom: 80px;
+            left: 55%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 4;
+            width: 120px;
+            height: 200px;
+        }
+
+        .little-girl:hover {
+            transform: scale(1.05);
+        }
+
+        .little-girl img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .little-girl.surprised img {
+            content: url('小女孩惊讶1.PNG');
+        }
+
+        .falling-apple {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            z-index: 100;
+            pointer-events: none;
+            display: none;
+        }
+
+        .falling-apple img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .card-popup.sun-card {
+            background: #fff;
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-popup.apple-card {
+            background: #fff;
+            border: 4px solid #333;
+            border-radius: 12px;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .sun-photo {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
+            border: 3px solid #333;
+        }
+
+        .sun-photo img {
+            max-width: 120%;
+            max-height: 70vh;
+            border-radius: 4px;
+            object-fit: contain;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .apple-card-content {
+            text-align: center;
+            padding: 30px;
+            font-family: 'WenQuanYi', 'Press Start 2P', cursive;
+            font-size: 1.275rem;
+            color: #333;
+            line-height: 1.8;
+            text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 1024px) {
+            .scene-container {
+                max-width: 90%;
+            }
+            .sun {
+                width: 100px;
+                height: 100px;
+                right: 50px;
+            }
+            .cloud-1 {
+                width: 180px;
+                height: 96px;
+            }
+            .cloud-2 {
+                width: 144px;
+                height: 78px;
+            }
+            .apple-tree {
+                transform: translateX(-50%) scale(1.1);
+            }
+            .little-girl {
+                width: 100px;
+                height: 167px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .scene-container {
+                max-width: 95%;
+            }
+            .sun {
+                width: 80px;
+                height: 80px;
+                right: 20px;
+                top: 20px;
+            }
+            .cloud-1 {
+                width: 140px;
+                height: 75px;
+                top: 40px;
+                left: 20px;
+            }
+            .cloud-2 {
+                width: 112px;
+                height: 60px;
+                top: 80px;
+                left: 120px;
+            }
+            .apple-tree {
+                transform: translateX(-50%) scale(0.9);
+                bottom: 30px;
+            }
+            .tree-apple {
+                width: 40px;
+                height: 40px;
+            }
+            .little-girl {
+                width: 80px;
+                height: 133px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .page-nav-buttons {
+                right: 15px;
+                bottom: 15px;
+            }
+            .nav-btn {
+                font-size: 1rem;
+                padding: 8px 15px;
+            }
+            .nav-hint-box {
+                padding: 20px 30px;
+                font-size: 1rem;
+            }
+            .card-popup {
+                max-width: 90%;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            .sun-photo img {
+                max-width: 100%;
+                max-height: 50vh;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apple-tree {
+                transform: translateX(-50%) scale(0.75);
+                bottom: 20px;
+            }
+            .tree-apple {
+                width: 35px;
+                height: 35px;
+            }
+            .little-girl {
+                width: 70px;
+                height: 117px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="page2" class="page">
+        <div class="stars-container" id="starsContainer"></div>
+
+        <div class="scene-container">
+            <div class="page-nav-buttons">
+                <button class="nav-btn back-home" onclick="window.location.href='index.html'">返回首页</button>
+            </div>
+            
+            <div class="nav-hint-box">
+                试着点击云朵、太阳、小女孩和四颗苹果吧！
+            </div>
+            
+            <div class="sun" id="sun" onclick="showCard('sunCard')">
+                <img src="太阳照片.png" alt="太阳">
+            </div>
+
+            <div class="cloud cloud-1" onclick="showCard('cloudCard')">
+                <img src="云朵.PNG" alt="云朵">
+            </div>
+
+            <div class="cloud cloud-2" onclick="showCard('cloudCard')">
+                <img src="云朵.PNG" alt="云朵">
+            </div>
+
+            <div class="apple-tree">
+                <img src="背景.PNG" alt="苹果树">
+                <div class="tree-apple" id="apple1" onclick="showCard('appleCard1'); markAppleClicked('apple1')">
+                    <img src="苹果1.PNG" alt="苹果1">
+                </div>
+                <div class="tree-apple" id="apple2" onclick="showCard('appleCard2'); markAppleClicked('apple2')">
+                    <img src="苹果2.PNG" alt="苹果2">
+                </div>
+                <div class="tree-apple" id="apple3" onclick="showCard('appleCard3'); markAppleClicked('apple3')">
+                    <img src="苹果3.PNG" alt="苹果3">
+                </div>
+                <div class="tree-apple" id="apple4" onclick="showCard('appleCard4'); markAppleClicked('apple4')">
+                    <img src="苹果4.PNG" alt="苹果4">
+                </div>
+                <div class="tree-apple special" id="apple5" onclick="handleSpecialApple()">
+                    <img src="苹果5.PNG" alt="苹果5">
+                </div>
+            </div>
+
+            <div class="little-girl" id="littleGirl" onmouseenter="showSpeechBubble()" onmouseleave="hideSpeechBubble()">
+                <img src="小女孩微笑.PNG" alt="小女孩">
+                <div class="speech-bubble" id="speechBubble">
+                    <div class="speech-bubble-text" id="speechText"></div>
+                    <span class="typing-cursor" id="typingCursor"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="falling-apple" id="fallingApple">
+            <img src="苹果5.PNG" alt="掉落中的苹果">
+        </div>
+        <div class="flash-overlay" id="flashOverlay"></div>
+        <div class="glitch-overlay" id="glitchOverlay"></div>
+    </div>
+
+    <div class="overlay" id="overlay" onclick="closeAllCards()"></div>
+
+    <div class="card-popup sun-card" id="sunCard">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="card-title">moment:</div>
+        <div class="sun-photo">
+            <img src="太阳moment.jpg" alt="照片">
+        </div>
+    </div>
+
+    <div class="card-popup cloud-card" id="cloudCard">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="card-title">想和我做朋友吗！！！</div>
+    </div>
+
+    <div class="card-popup apple-card" id="appleCard1">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="apple-card-content">MBTI：ENFP</div>
+    </div>
+
+    <div class="card-popup apple-card" id="appleCard2">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="apple-card-content">现居地：广东深圳</div>
+    </div>
+
+    <div class="card-popup apple-card" id="appleCard3">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="apple-card-content">我的星座：白羊座</div>
+    </div>
+
+    <div class="card-popup apple-card" id="appleCard4">
+        <button class="close-btn" onclick="closeAllCards()">×</button>
+        <div class="apple-card-content">我的年龄：20岁</div>
+    </div>
+
+    <script>
+        let clickedApples = new Set();
+        let sunClicked = false;
+        let cloudClicked = false;
+        let typingInterval = null;
+        const speechText = '你好，你可以叫我佳佳';
+
+        function checkShowApple5() {
+            if (sunClicked && cloudClicked && clickedApples.size >= 4) {
+                document.getElementById('apple5').classList.add('show');
+            }
+        }
+
+        function createStars() {
+            const container = document.getElementById('starsContainer');
+            const starCount = 50;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                const type = Math.floor(Math.random() * 3) + 1;
+                star.className = 'star type' + type;
+
+                const size = 12 + Math.random() * 20;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 6;
+                const duration = 4 + Math.random() * 5;
+
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left = left + '%';
+                star.style.top = (-20 - Math.random() * 15) + 'vh';
+                star.style.animationDelay = delay + 's';
+                star.style.animationDuration = duration + 's';
+
+                container.appendChild(star);
+            }
+        }
+
+        function showCard(cardId) {
+            closeAllCards();
+            setTimeout(() => {
+                document.getElementById('overlay').classList.add('show');
+                document.getElementById(cardId).classList.add('show');
+            }, 50);
+
+            // 记录点击
+            if (cardId === 'sunCard') {
+                sunClicked = true;
+                checkShowApple5();
+            } else if (cardId === 'cloudCard') {
+                cloudClicked = true;
+                checkShowApple5();
+            }
+        }
+
+        function closeAllCards() {
+            document.getElementById('overlay').classList.remove('show');
+            const cards = document.querySelectorAll('.card-popup');
+            cards.forEach(card => {
+                card.classList.remove('show');
+            });
+        }
+
+        function markAppleClicked(appleId) {
+            clickedApples.add(appleId);
+            checkShowApple5();
+        }
+
+        function handleAppleClose(cardId, appleId) {
+            closeAllCards();
+        }
+
+        function showSpeechBubble() {
+            const bubble = document.getElementById('speechBubble');
+            const textEl = document.getElementById('speechText');
+            const cursor = document.getElementById('typingCursor');
+            
+            bubble.classList.add('show');
+            textEl.textContent = '';
+            cursor.style.display = 'inline-block';
+            
+            let index = 0;
+            typingInterval = setInterval(() => {
+                if (index < speechText.length) {
+                    textEl.textContent += speechText[index];
+                    index++;
+                } else {
+                    clearInterval(typingInterval);
+                }
+            }, 150);
+        }
+
+        function hideSpeechBubble() {
+            const bubble = document.getElementById('speechBubble');
+            const textEl = document.getElementById('speechText');
+            const cursor = document.getElementById('typingCursor');
+            
+            clearInterval(typingInterval);
+            bubble.classList.remove('show');
+            textEl.textContent = '';
+            cursor.style.display = 'none';
+        }
+
+        function handleSpecialApple() {
+            closeAllCards();
+
+            const apple = document.getElementById('fallingApple');
+            const apple5 = document.getElementById('apple5');
+            const girl = document.getElementById('littleGirl');
+            const flash = document.getElementById('flashOverlay');
+            const glitch = document.getElementById('glitchOverlay');
+            
+            try {
+                // 隐藏原苹果5，显示掉落苹果（简化版本，固定起始位置）
+                apple5.style.display = 'none';
+                apple.style.display = 'block';
+                apple.style.left = '380px';
+                apple.style.top = '180px';
+
+                // 简化掉落动画（放慢）
+                let progress = 0;
+                const duration = 1500;
+                const startTime = Date.now();
+
+                const startX = 380;
+                const startY = 180;
+                const endX = 580;
+                const endY = 380;
+
+                function animate() {
+                    const elapsed = Date.now() - startTime;
+                    progress = Math.min(elapsed / duration, 1);
+
+                    const easeProgress = 1 - Math.pow(1 - progress, 3);
+
+                    const x = startX + (endX - startX) * easeProgress;
+                    const arcHeight = 100 * Math.sin(progress * Math.PI);
+                    const y = startY + (endY - startY) * easeProgress - arcHeight;
+
+                    apple.style.left = x + 'px';
+                    apple.style.top = y + 'px';
+                    apple.style.transform = `rotate(${progress * 360}deg)`;
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        apple.style.display = 'none';
+                        girl.classList.add('surprised');
+                        glitch.classList.add('active');
+                        setTimeout(() => { flash.classList.add('active'); }, 150);
+                        setTimeout(() => { window.location.href = 'portfolio.html'; }, 500);
+                    }
+                }
+
+                animate();
+            } catch (error) {
+                console.error('苹果掉落出错，直接跳转', error);
+                window.location.href = 'portfolio.html';
+            }
+        }
+
+        function goToPage(page) {
+            window.location.href = page;
+        }
+
+        // 图片错误处理
+        function handleImageError(img) {
+            img.style.background = '#f5f5f5';
+            console.warn('图片加载失败:', img.src);
+        }
+
+        window.addEventListener('load', function() {
+            createStars();
+            
+            // 添加图片错误处理
+            const images = document.querySelectorAll('.scene-container img, .card-popup img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    handleImageError(this);
+                });
+            });
+            
+            const hintBox = document.querySelector('.nav-hint-box');
+            setTimeout(() => {
+                hintBox.classList.add('show');
+            }, 500);
+            
+            setTimeout(() => {
+                hintBox.classList.remove('show');
+                hintBox.classList.add('hide');
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
